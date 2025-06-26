@@ -77,3 +77,9 @@ setopt appendhistory
 eozshrc
 
 VOLUME ["/dc/shellhistory"]
+
+# Copy the source code into the container
+COPY --chown=$USERNAME:$USERNAME ../ /workspaces/hephaestus/
+
+# Set the working directory
+WORKDIR /workspaces/hephaestus
