@@ -56,13 +56,13 @@ services:
   hephaestus_bridge:
     container_name: hephaestus-bridge
     restart: unless-stopped
-    image: hephaestus-dev:latest
+    image: gcr.io/sunflower-container-registry/hephaestus-dev:latest
     build:
       dockerfile: Dockerfile.dev
       pull: false
       context: .
       args:
-        BASE_IMAGE: hephaestus-hephaestus-base:latest
+        BASE_IMAGE: gcr.io/sunflower-container-registry/hephaestus-hephaestus-base:latest
     depends_on:
       hephaestus-base:
         condition: service_completed_successfully
