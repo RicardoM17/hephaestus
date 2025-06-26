@@ -7,7 +7,7 @@ BUILDTOOLS_REPO="https://github.com/bazelbuild/buildtools/releases/download/"
 BIN_PATH="/usr/local/bin"
 
 # get arhitecture
-[[ $(uname -m) == "arm64" ]] && ARCH="arm64" || ARCH="amd64"
+[[ $(uname -m) == "arm64" || $(uname -m) == "aarch64" ]] && ARCH="arm64" || ARCH="amd64"
 
 # get os type
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then

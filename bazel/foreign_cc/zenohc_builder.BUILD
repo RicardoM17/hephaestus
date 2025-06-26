@@ -15,12 +15,9 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
+# For backward compatibility, create an alias
 cc_library(
     name = "zenoh-cpp",
-    hdrs = glob([
-        "include/**/*.hxx",
-    ]),
-    includes = ["include"],
     visibility = ["//visibility:public"],
-    deps = [":zenoh-c"],
+    deps = ["@zenohcpp//:zenoh-cpp"],
 )

@@ -5,13 +5,23 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 def foreign_cc_repositories():
+    # Use official Eclipse Zenoh releases with ARM64 support
     ZENOH_VERSION = "1.2.1"
     http_archive(
         name = "zenohc_builder",
         build_file = ":foreign_cc/zenohc_builder.BUILD",
-        urls = ["https://github.com/olympus-robotics/zenohc_builder/archive/refs/tags/{version}.zip".format(version = ZENOH_VERSION)],
-        strip_prefix = "zenohc_builder-{version}".format(version = ZENOH_VERSION),
-        sha256 = "b6015958b7924f721b76f688a6ae4b8c55548192d43de4be3ab0a15af0e3b46f",
+        urls = ["https://github.com/eclipse-zenoh/zenoh-c/releases/download/{version}/zenoh-c-{version}-aarch64-unknown-linux-gnu-standalone.zip".format(version = ZENOH_VERSION)],
+        strip_prefix = "",  # No prefix stripping needed for direct binary release
+        sha256 = "1427e97089c2257c0901475992361f4962088492088d629bde3c7020d7b5350a",  # ARM64 standalone package
+    )
+
+    # Zenoh C++ headers (architecture-independent)
+    http_archive(
+        name = "zenohcpp",
+        build_file = ":foreign_cc/zenohcpp.BUILD",
+        urls = ["https://github.com/eclipse-zenoh/zenoh-cpp/releases/download/{version}/zenohcpp-{version}-standalone.zip".format(version = ZENOH_VERSION)],
+        strip_prefix = "",
+        sha256 = "527fb98667ac967d9c4fa0cab2a5d7773cb29dfd5a97a80159a4c183c805c642",
     )
 
     MCAP_VERSION = "bebea860f68b278d6cccdb70e0ed299d2656af96"
