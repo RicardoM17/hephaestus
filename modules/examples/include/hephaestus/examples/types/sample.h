@@ -6,6 +6,7 @@
 
 #include <cstddef>
 #include <string>
+#include <vector>
 
 #include <fmt/format.h>
 
@@ -21,6 +22,11 @@ struct SampleReply {
   std::size_t counter{ 0 };
 };
 
+struct StressMessage {
+  std::size_t counter{ 0 };
+  std::vector<float> data{};
+};
+
 // NOLINTNEXTLINE(readability-identifier-naming)
 static inline auto format_as(const SampleRequest& sample) -> std::string {
   return fmt::format("initial value: {} | iterations: {}", sample.initial_value, sample.iterations_count);
@@ -29,6 +35,11 @@ static inline auto format_as(const SampleRequest& sample) -> std::string {
 // NOLINTNEXTLINE(readability-identifier-naming)
 static inline auto format_as(const SampleReply& sample) -> std::string {
   return fmt::format("value: {} | counter: {}", sample.value, sample.counter);
+}
+
+// NOLINTNEXTLINE(readability-identifier-naming)
+static inline auto format_as(const StressMessage& sample) -> std::string {
+  return fmt::format("counter: {} | data size: {}", sample.counter, sample.data.size());
 }
 
 }  // namespace heph::examples::types

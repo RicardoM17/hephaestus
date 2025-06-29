@@ -11,3 +11,8 @@ message SampleReply {
   uint64 value = 1;
   uint64 counter = 2;
 }
+
+message StressMessage {
+  uint64 counter = 1;
+  repeated float data = 2;
+}

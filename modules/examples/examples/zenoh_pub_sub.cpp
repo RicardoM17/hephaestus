@@ -76,7 +76,7 @@ auto main(int argc, const char* argv[]) -> int
     topic_config_3.name = pub_topic_name_3;
 
     // Create 3 publishers, one for each topic
-    heph::ipc::zenoh::Publisher<heph::examples::types::Pose> publisher_1{
+    heph::ipc::zenoh::Publisher<heph::examples::types::StressMessage> publisher_1{
       session, topic_config_1,
       [](const auto& status) {
         if (status.matching)
@@ -90,7 +90,7 @@ auto main(int argc, const char* argv[]) -> int
       }
     };
 
-    heph::ipc::zenoh::Publisher<heph::examples::types::Pose> publisher_2{
+    heph::ipc::zenoh::Publisher<heph::examples::types::StressMessage> publisher_2{
       session, topic_config_2,
       [](const auto& status) {
         if (status.matching)
@@ -104,7 +104,7 @@ auto main(int argc, const char* argv[]) -> int
       }
     };
 
-    heph::ipc::zenoh::Publisher<heph::examples::types::Pose> publisher_3{
+    heph::ipc::zenoh::Publisher<heph::examples::types::StressMessage> publisher_3{
       session, topic_config_3,
       [](const auto& status) {
         if (status.matching)
@@ -118,7 +118,7 @@ auto main(int argc, const char* argv[]) -> int
       }
     };
 
-    heph::ipc::zenoh::Publisher<heph::examples::types::Pose> publisher_4{
+    heph::ipc::zenoh::Publisher<heph::examples::types::StressMessage> publisher_4{
       session, topic_config,
       [](const auto& status) {
         if (status.matching)
@@ -158,69 +158,69 @@ auto main(int argc, const char* argv[]) -> int
     auto sub_topic_config_4 = topic_config;
     sub_topic_config_4.name = sub_topic_name_4;
 
-    auto sub_1_last_value = 0.0;
-    auto sub_2_last_value = 0.0;
-    auto sub_3_last_value = 0.0;
-    auto sub_4_last_value = 0.0;
+    auto sub_1_last_value = std::size_t{0};
+    auto sub_2_last_value = std::size_t{0};
+    auto sub_3_last_value = std::size_t{0};
+    auto sub_4_last_value = std::size_t{0};
 
     // Create 3 subscribers with unique callbacks
-    heph::ipc::zenoh::Subscriber<heph::examples::types::Pose> subscriber_1{
+    heph::ipc::zenoh::Subscriber<heph::examples::types::StressMessage> subscriber_1{
       session, sub_topic_config_1,
       [node_id, sub_topic_name_1, &sub_1_last_value](const heph::ipc::zenoh::MessageMetadata& /**/,
-                                                     const std::shared_ptr<heph::examples::types::Pose>& pose) {
+                                                     const std::shared_ptr<heph::examples::types::StressMessage>& msg) {
         // fmt::println("Node {} - Subscriber 1 received on topic '{}': {}",
-        //              node_id, sub_topic_name_1, *pose);
-        if (pose->position.z() != sub_1_last_value + 1 && sub_1_last_value != 0)
+        //              node_id, sub_topic_name_1, *msg);
+        if (msg->counter != sub_1_last_value + 1 && sub_1_last_value != 0)
         {
           fmt::println("ERROR: Node {} - Subscriber 1 received unexpected value on topic '{}': expected {}, got {}",
-                       node_id, sub_topic_name_1, sub_1_last_value + 1, pose->position.z());
+                       node_id, sub_topic_name_1, sub_1_last_value + 1, msg->counter);
         }
-        sub_1_last_value = pose->position.z();
+        sub_1_last_value = msg->counter;
       }
     };
 
-    heph::ipc::zenoh::Subscriber<heph::examples::types::Pose> subscriber_2{
+    heph::ipc::zenoh::Subscriber<heph::examples::types::StressMessage> subscriber_2{
       session, sub_topic_config_2,
       [node_id, sub_topic_name_2, &sub_2_last_value](const heph::ipc::zenoh::MessageMetadata& /**/,
-                                                     const std::shared_ptr<heph::examples::types::Pose>& pose) {
+                                                     const std::shared_ptr<heph::examples::types::StressMessage>& msg) {
         // fmt::println("Node {} - Subscriber 2 received on topic '{}': {}",
-        //              node_id, sub_topic_name_2, *pose);
-        if (pose->position.z() != sub_2_last_value + 1 && sub_2_last_value != 0)
+        //              node_id, sub_topic_name_2, *msg);
+        if (msg->counter != sub_2_last_value + 1 && sub_2_last_value != 0)
         {
           fmt::println("ERROR: Node {} - Subscriber 2 received unexpected value on topic '{}': expected {}, got {}",
-                       node_id, sub_topic_name_2, sub_2_last_value + 1, pose->position.z());
+                       node_id, sub_topic_name_2, sub_2_last_value + 1, msg->counter);
         }
-        sub_2_last_value = pose->position.z();
+        sub_2_last_value = msg->counter;
       }
     };
 
-    heph::ipc::zenoh::Subscriber<heph::examples::types::Pose> subscriber_3{
+    heph::ipc::zenoh::Subscriber<heph::examples::types::StressMessage> subscriber_3{
       session, sub_topic_config_3,
       [node_id, sub_topic_name_3, &sub_3_last_value](const heph::ipc::zenoh::MessageMetadata& /**/,
-                                                     const std::shared_ptr<heph::examples::types::Pose>& pose) {
+                                                     const std::shared_ptr<heph::examples::types::StressMessage>& msg) {
         // fmt::println("Node {} - Subscriber 3 received on topic '{}': {}",
-        //              node_id, sub_topic_name_3, *pose);
-        if (pose->position.z() != sub_3_last_value + 1 && sub_3_last_value != 0)
+        //              node_id, sub_topic_name_3, *msg);
+        if (msg->counter != sub_3_last_value + 1 && sub_3_last_value != 0)
         {
           fmt::println("ERROR: Node {} - Subscriber 3 received unexpected value on topic '{}': expected {}, got {}",
-                       node_id, sub_topic_name_3, sub_3_last_value + 1, pose->position.z());
+                       node_id, sub_topic_name_3, sub_3_last_value + 1, msg->counter);
         }
-        sub_3_last_value = pose->position.z();
+        sub_3_last_value = msg->counter;
       }
     };
 
-    heph::ipc::zenoh::Subscriber<heph::examples::types::Pose> subscriber_4{
+    heph::ipc::zenoh::Subscriber<heph::examples::types::StressMessage> subscriber_4{
       session, sub_topic_config_4,
       [node_id, sub_topic_name_4, &sub_4_last_value](const heph::ipc::zenoh::MessageMetadata& /**/,
-                                                     const std::shared_ptr<heph::examples::types::Pose>& pose) {
+                                                     const std::shared_ptr<heph::examples::types::StressMessage>& msg) {
         // fmt::println("Node {} - Subscriber 4 received on topic '{}': {}",
-        //              node_id, sub_topic_name_4, *pose);
-        if (pose->position.z() != sub_4_last_value + 1 && sub_4_last_value != 0)
+        //              node_id, sub_topic_name_4, *msg);
+        if (msg->counter != sub_4_last_value + 1 && sub_4_last_value != 0)
         {
           fmt::println("ERROR: Node {} - Subscriber 4 received unexpected value on topic '{}': expected {}, got {}",
-                       node_id, sub_topic_name_4, sub_4_last_value + 1, pose->position.z());
+                       node_id, sub_topic_name_4, sub_4_last_value + 1, msg->counter);
         }
-        sub_4_last_value = pose->position.z();
+        sub_4_last_value = msg->counter;
       }
     };
 
@@ -231,28 +231,29 @@ auto main(int argc, const char* argv[]) -> int
 
     static constexpr auto LOOP_WAIT = std::chrono::milliseconds{ 20 };
     double count = 0;
+    heph::examples::types::StressMessage msg;
+    // Resize msg.data to have 1000 elements
+    msg.data.resize(1000);
     while (!heph::utils::TerminationBlocker::stopRequested())
     {
-      heph::examples::types::Pose pose;
-      pose.position = Eigen::Vector3d{ 1, 2, count++ };            // NOLINT
-      pose.orientation = Eigen::Quaterniond{ 1., 0.1, 0.2, 0.3 };  // NOLINT
+      msg.counter = static_cast<std::size_t>(count++);  // NOLINT
 
-      if (static_cast<int>(count) % 100 == 0)
+      if (static_cast<int>(count) % 1000 == 0)
       {
-        fmt::println("Node {} - Publishing Data ('{} : {})", node_id, pub_topic_name_1, pose);
+        fmt::println("Node {} - Publishing Data ('{} : {})", node_id, pub_topic_name_1, msg.counter);
       }
 
       // Publish to all 3 topics
-      // fmt::println("Node {} - Publishing Data to topic '{}': {}", node_id, pub_topic_name_1, pose);
-      auto res1 = publisher_1.publish(pose);
+      // fmt::println("Node {} - Publishing Data to topic '{}': {}", node_id, pub_topic_name_1, msg);
+      auto res1 = publisher_1.publish(msg);
       heph::panicIf(!res1, "failed to publish message to topic 1");
 
-      // fmt::println("Node {} - Publishing Data to topic '{}': {}", node_id, pub_topic_name_2, pose);
-      auto res2 = publisher_2.publish(pose);
+      // fmt::println("Node {} - Publishing Data to topic '{}': {}", node_id, pub_topic_name_2, msg);
+      auto res2 = publisher_2.publish(msg);
       heph::panicIf(!res2, "failed to publish message to topic 2");
 
-      // fmt::println("Node {} - Publishing Data to topic '{}': {}", node_id, pub_topic_name_3, pose);
-      auto res3 = publisher_3.publish(pose);
+      // fmt::println("Node {} - Publishing Data to topic '{}': {}", node_id, pub_topic_name_3, msg);
+      auto res3 = publisher_3.publish(msg);
       heph::panicIf(!res3, "failed to publish message to topic 3");
 
       std::this_thread::sleep_for(LOOP_WAIT);

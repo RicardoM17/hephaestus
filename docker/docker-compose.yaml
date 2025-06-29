@@ -53,19 +53,183 @@ services:
         BASE_IMAGE: ubuntu:22.04
     command: 'echo "build is completed"'
 
-  hephaestus-pub:
-    <<: *hephaestus-template
-    deploy:
-      mode: replicated
-      replicas: 1
-    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub
+  # hephaestus-pub:
+  #   <<: *hephaestus-template
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 1
+  #   command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub
 
-  hephaestus-sub:
+  # hephaestus-sub:
+  #   <<: *hephaestus-template
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 5
+  #   command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_sub
+
+
+  # Start 40 instances of the zenoh_pub_sub example
+  # Each instance will have a unique node_id from 1 to 40
+  # This is useful for testing the pub-sub system with multiple nodes
+  # Each node will publish and subscribe to topics with unique IDs
+  hephaestus-pub-sub-1:
     <<: *hephaestus-template
-    deploy:
-      mode: replicated
-      replicas: 5
-    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_sub
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 1
+
+  hephaestus-pub-sub-2:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 2
+
+  hephaestus-pub-sub-3:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 3
+
+  hephaestus-pub-sub-4:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 4
+
+  hephaestus-pub-sub-5:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 5
+
+  hephaestus-pub-sub-6:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 6
+
+  hephaestus-pub-sub-7:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 7
+
+  hephaestus-pub-sub-8:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 8
+
+  hephaestus-pub-sub-9:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 9
+
+  hephaestus-pub-sub-10:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 10
+
+  hephaestus-pub-sub-11:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 11
+
+  hephaestus-pub-sub-12:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 12
+
+  hephaestus-pub-sub-13:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 13
+
+  hephaestus-pub-sub-14:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 14
+
+  hephaestus-pub-sub-15:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 15
+
+  hephaestus-pub-sub-16:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 16
+
+  hephaestus-pub-sub-17:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 17
+
+  hephaestus-pub-sub-18:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 18
+
+  hephaestus-pub-sub-19:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 19
+
+  hephaestus-pub-sub-20:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 20
+
+  hephaestus-pub-sub-21:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 21
+
+  hephaestus-pub-sub-22:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 22
+
+  hephaestus-pub-sub-23:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 23
+
+  hephaestus-pub-sub-24:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 24
+
+  hephaestus-pub-sub-25:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 25
+
+  hephaestus-pub-sub-26:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 26
+
+  hephaestus-pub-sub-27:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 27
+
+  hephaestus-pub-sub-28:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 28
+
+  hephaestus-pub-sub-29:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 29
+  hephaestus-pub-sub-30:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 30
+
+  hephaestus-pub-sub-31:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 31
+
+  hephaestus-pub-sub-32:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 32
+
+  hephaestus-pub-sub-33:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 33
+
+  hephaestus-pub-sub-34:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 34
+
+  hephaestus-pub-sub-35:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 35
+
+  hephaestus-pub-sub-36:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 36
+
+  hephaestus-pub-sub-37:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 37
+
+  hephaestus-pub-sub-38:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 38
+
+  hephaestus-pub-sub-39:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 39
+
+  hephaestus-pub-sub-40:
+    <<: *hephaestus-template
+    command: /workspaces/hephaestus/bazel-bin/modules/examples/zenoh_pub_sub --node_id 40
 
   # hephaestus-bag:
   #   <<: *hephaestus-template
