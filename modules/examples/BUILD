@@ -87,6 +87,17 @@ heph_cc_binary(
 )
 
 heph_cc_binary(
+    name = "zenoh_pub_sub",
+    srcs = [
+        "examples/zenoh_program_options.h",
+        "examples/zenoh_pub_sub.cpp",
+    ],
+    deps = [
+        ":examples",
+    ],
+)
+
+heph_cc_binary(
     name = "zenoh_service_client",
     srcs = [
         "examples/zenoh_program_options.h",
