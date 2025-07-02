@@ -60,6 +60,14 @@ heph_cc_binary(
 )
 
 heph_cc_binary(
+    name = "zenoh_topic_hz",
+    srcs = ["apps/zenoh_topic_hz.cpp"],
+    deps = [
+        ":ipc",
+    ],
+)
+
+heph_cc_binary(
     name = "zenoh_topic_list",
     srcs = ["apps/zenoh_topic_list.cpp"],
     deps = [

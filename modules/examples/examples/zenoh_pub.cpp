@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <exception>
+#include <iostream>
 #include <memory>
 #include <thread>
 #include <tuple>
@@ -33,6 +34,10 @@ auto main(int argc, const char* argv[]) -> int {
   try {
     heph::telemetry::registerLogSink(std::make_unique<heph::telemetry::AbslLogSink>());
 
+    // Force immediate flushing for Docker logging - applies globally
+    std::cout << std::unitbuf;
+    std::cerr << std::unitbuf;
+
     auto desc = heph::cli::ProgramDescription("Periodic publisher example");
     heph::ipc::zenoh::appendProgramOption(desc, getDefaultTopic(ExampleType::PUBSUB));
     const auto args = std::move(desc).parse(argc, argv);
@@ -40,19 +45,22 @@ auto main(int argc, const char* argv[]) -> int {
     auto [session_config, topic_config, _] = heph::ipc::zenoh::parseProgramOptions(args);
     auto session = heph::ipc::zenoh::createSession(session_config);
 
+    // Log the Zenoh session ID (ZID)
+    auto zenoh_id = session->zenoh_session.get_zid().to_string();
+    fmt::println("Publisher started with Zenoh session ID: {}", zenoh_id);
+
     heph::ipc::zenoh::Publisher<heph::examples::types::Pose> publisher{ session, topic_config,
                                                                         [](const auto& status) {
                                                                           if (status.matching) {
                                                                             fmt::println("Subscriber match");
                                                                           } else {
-                                                                            fmt::println(
-                                                                                "NO subscriber matching");
+                                                                            fmt::println("NO subscriber matching");
                                                                           }
                                                                         } };
 
     fmt::println("[Session: '{}'] declaring RawPublisher on '{}'", publisher.sessionId(), topic_config.name);
 
-    static constexpr auto LOOP_WAIT = std::chrono::milliseconds{ 10 };
+    static constexpr auto LOOP_WAIT = std::chrono::milliseconds{ 1000 };
     double count = 0;
     while (!heph::utils::TerminationBlocker::stopRequested()) {
       heph::examples::types::Pose pose;
@@ -62,7 +70,7 @@ auto main(int argc, const char* argv[]) -> int {
       fmt::println("Publishing Data ('{} : {})", topic_config.name, pose);
       auto res = publisher.publish(pose);
       heph::panicIf(!res, "failed to publish message");
-
+      std::cout.flush();
       std::this_thread::sleep_for(LOOP_WAIT);
     }
 
