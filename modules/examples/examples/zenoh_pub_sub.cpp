@@ -32,7 +32,6 @@
 #include "hephaestus/utils/stack_trace.h"
 #include "zenoh_program_options.h"
 
-const int VECTOR_SIZE = 100;              // Size of the data vector in StressMessage
 const int HIGH_RATE_PUBLISH_RATE = 100;   // High publish rate in Hz
 const int MEDIUM_RATE_PUBLISH_RATE = 20;  // Medium publish rate in Hz
 const int DEFAULT_PUBLISH_RATE = 5;       // Default publish rate in Hz
@@ -59,6 +58,7 @@ auto main(int argc, const char* argv[]) -> int
     desc.defineOption<std::string>("medium-rate", 'M', "Enable medium-rate publishing (50 Hz instead of 5 Hz)",
                                    "false");
     desc.defineOption<int>("num-nodes", 'N', "Total number of nodes in the system", 5);
+    desc.defineOption<int>("array-size", 'a', "Size of the data vector in StressMessage", 5);
     heph::ipc::zenoh::appendProgramOption(desc, getDefaultTopic(ExampleType::PUBSUB));
     const auto args = std::move(desc).parse(argc, argv);
 
@@ -67,6 +67,7 @@ auto main(int argc, const char* argv[]) -> int
     bool high_rate = (args.getOption<std::string>("high-rate") == "true");
     bool medium_rate = (args.getOption<std::string>("medium-rate") == "true");
     int num_nodes = args.getOption<int>("num-nodes");
+    int array_size = args.getOption<int>("array-size");
 
     auto [session_config, topic_config, _] = heph::ipc::zenoh::parseProgramOptions(args);
     auto session = heph::ipc::zenoh::createSession(session_config);
@@ -185,7 +186,7 @@ auto main(int argc, const char* argv[]) -> int
 
         heph::examples::types::StressMessage msg;
         // Resize data vector to a fixed size, e.g., 100 elements
-        msg.data.resize(VECTOR_SIZE, 0.0f);  // Fill with zeros
+        msg.data.resize(static_cast<std::size_t>(array_size), 0.0f);  // Fill with zeros
 
         auto next_publish_time = std::chrono::steady_clock::now();
 
