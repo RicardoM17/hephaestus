@@ -3,16 +3,16 @@ name: hephaestus
 # Template for hephaestus services
 x-hephaestus-template: &hephaestus-template
   restart: unless-stopped
-  image: hephaestus-dev:latest
+  image: gcr.io/sunflower-container-registry/hephaestus-dev:${DOCKER_TAG:-latest}
   build:
     dockerfile: docker/Dockerfile.dev
     pull: false
     context: ..
     args:
-      BASE_IMAGE: gcr.io/sunflower-container-registry/hephaestus-hephaestus-base:latest
-  depends_on:
-    hephaestus-base:
-      condition: service_completed_successfully
+      BASE_IMAGE: gcr.io/sunflower-container-registry/hephaestus-hephaestus-base:${DOCKER_TAG:-latest}
+  # depends_on:
+  #   hephaestus-base:
+  #     condition: service_completed_successfully
   command: tail -F /dev/null
   ports: []
   cap_add:
@@ -25,6 +25,13 @@ x-hephaestus-template: &hephaestus-template
     DISPLAY: ${DISPLAY:-}
     SCCACHE_SERVER_PORT: 4228
     HEPHAESTUS_PATH: /workspaces/hephaestus
+    # Environment variables from .env file
+    NUM_NODES: ${NUM_NODES}
+    NUM_TOPICS: ${NUM_TOPICS}
+    HIGH_RATE: ${HIGH_RATE}
+    MEDIUM_RATE: ${MEDIUM_RATE}
+    ARRAY_SIZE: ${ARRAY_SIZE}
+    DOCKER_TAG: ${DOCKER_TAG}
   # devices:
   #   - /dev/dri:/dev/dri
   working_dir: /workspaces/hephaestus
@@ -41,21 +48,22 @@ x-hephaestus-template: &hephaestus-template
       - cache:/workspaces/.cache
 
 services:
-  hephaestus-base:
-    build:
-      dockerfile: Dockerfile
-      pull: false
-      context: .
-      tags:
-        - hephaestus-base:${DOCKER_TAG:-latest}
-        - ghcr.io/olympus-robotics/hephaestus:${DOCKER_TAG:-latest}
-      args:
-        BASE_IMAGE: ubuntu:22.04
-    command: 'echo "build is completed"'
+  # hephaestus-base:
+  #   build:
+  #     dockerfile: Dockerfile
+  #     pull: false
+  #     context: .
+  #     tags:
+  #       - gcr.io/sunflower-container-registry/hephaestus-base:${DOCKER_TAG:-latest}
+  #       - gcr.io/sunflower-container-registry/hephaestus-dev:${DOCKER_TAG:-latest}
+  #     args:
+  #       BASE_IMAGE: ubuntu:22.04
+  #   command: 'echo "build is completed"'
 
   helper:
     <<: *hephaestus-template
     container_name: hephaestus-helper
+    privileged: true
     command: tail -F /dev/null
 
   # hephaestus-pub:
