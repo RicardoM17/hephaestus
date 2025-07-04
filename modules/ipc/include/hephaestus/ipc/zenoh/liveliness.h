@@ -75,7 +75,7 @@ private:
 
   std::unique_ptr<::zenoh::Subscriber<void>> liveliness_subscriber_;
 
-  static constexpr std::size_t DEFAULT_CACHE_RESERVES = 1000;
+  static constexpr std::size_t DEFAULT_CACHE_RESERVES = 1500;
   std::unique_ptr<concurrency::MessageQueueConsumer<EndpointInfo>> infos_consumer_;
 };
 
